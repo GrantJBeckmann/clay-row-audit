@@ -162,7 +162,7 @@ export default function Home() {
       <iframe
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none', pointerEvents: showBg ? 'none' : 'auto' }}
         srcDoc={showBg ? DEMO_BG : resultHtml}
-        sandbox="allow-scripts allow-same-origin"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
         title={showBg ? 'Preview' : 'Audit Results'}
       />
 
