@@ -160,7 +160,7 @@ export default function Home() {
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
       {/* Background: demo preview (form/loading) or real results */}
       <iframe
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none', pointerEvents: showBg ? 'none' : 'auto' }}
+        style={{ position: 'absolute', top: phase === 'results' ? 44 : 0, left: 0, right: 0, bottom: 0, width: '100%', height: phase === 'results' ? 'calc(100% - 44px)' : '100%', border: 'none', pointerEvents: showBg ? 'none' : 'auto' }}
         srcDoc={showBg ? DEMO_BG : resultHtml}
         sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
         title={showBg ? 'Preview' : 'Audit Results'}
@@ -218,8 +218,9 @@ export default function Home() {
                 <strong style={{ color: '#374151' }}>How to get your cookie string:</strong><br />
                 1. Open Clay, press <strong>F12</strong> → <strong>Network</strong> tab<br />
                 2. Refresh the page, click any <strong>api.clay.com</strong> request<br />
-                3. Under <strong>Request Headers</strong>, find <strong>cookie</strong><br />
-                4. Right-click it → <strong>Copy value</strong> and paste the full string here
+                3. Under <strong>Request Headers</strong>, find the <strong>cookie</strong> row<br />
+                4. Right-click → <strong>Copy value</strong> and paste here<br />
+                <span style={{ color: '#9ca3af' }}>It&apos;s a long string starting with <code style={{ background: '#e5e7eb', padding: '1px 4px', borderRadius: 3 }}>claysession=</code></span>
               </div>
 
               <button
