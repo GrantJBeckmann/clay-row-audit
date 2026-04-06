@@ -205,20 +205,21 @@ export default function Home() {
                 onChange={e => setWsUrl(e.target.value)}
               />
 
-              <label style={labelStyle}>Session Cookie</label>
+              <label style={labelStyle}>Cookie String</label>
               <input
                 style={inputStyle}
                 type="password"
-                placeholder="Your claysession cookie value"
+                placeholder="Paste full cookie string from Network tab Request Headers"
                 value={cookie}
                 onChange={e => setCookie(e.target.value)}
               />
 
               <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 8, padding: '12px 14px', marginTop: 16, marginBottom: 24, fontSize: 12, color: '#6b7280', lineHeight: 1.6 }}>
-                <strong style={{ color: '#374151' }}>How to find your session cookie:</strong><br />
-                1. Open Clay and press <strong>F12</strong> → Application tab<br />
-                2. Under Cookies → <code style={{ background: '#e5e7eb', padding: '1px 4px', borderRadius: 3 }}>https://app.clay.com</code><br />
-                3. Find <code style={{ background: '#e5e7eb', padding: '1px 4px', borderRadius: 3 }}>claysession</code> and copy its value
+                <strong style={{ color: '#374151' }}>How to get your cookie string:</strong><br />
+                1. Open Clay, press <strong>F12</strong> → <strong>Network</strong> tab<br />
+                2. Refresh the page, click any <strong>api.clay.com</strong> request<br />
+                3. Under <strong>Request Headers</strong>, find <strong>cookie</strong><br />
+                4. Right-click it → <strong>Copy value</strong> and paste the full string here
               </div>
 
               <button

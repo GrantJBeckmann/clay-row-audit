@@ -39,11 +39,19 @@ export interface AuditError {
 export type AuditEvent = AuditProgress | AuditComplete | AuditError;
 
 function clayHeaders(cookie: string) {
+  // Accept either a raw session value, a full "name=value; ..." cookie string,
+  // or a "Cookie: ..." header line — normalise to a bare cookie string.
+  const bare = cookie.replace(/^cookie:\s*/i, '').trim();
+  const cookieHeader = bare.includes('=') ? bare : `claysession=${bare}`;
   return {
     origin: 'https://app.clay.com',
     referer: 'https://app.clay.com/',
-    cookie: `claysession=${cookie}`,
-    'user-agent': 'Mozilla/5.0',
+    cookie: cookieHeader,
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    'accept': 'application/json, text/plain, */*',
+    'accept-language': 'en-US,en;q=0.9',
+    'sec-fetch-site': 'same-site',
+    'sec-fetch-mode': 'cors',
   };
 }
 
