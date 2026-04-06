@@ -52,7 +52,7 @@ async function clayGet(path: string, cookie: string) {
     headers: clayHeaders(cookie),
     next: { revalidate: 0 },
   });
-  if (!res.ok) return {};
+  if (!res.ok) throw new Error(`GET ${path} → ${res.status} ${res.statusText}`);
   return res.json().catch(() => ({}));
 }
 
@@ -63,7 +63,7 @@ async function clayPost(path: string, body: object, cookie: string) {
     body: JSON.stringify(body),
     next: { revalidate: 0 },
   });
-  if (!res.ok) return {};
+  if (!res.ok) throw new Error(`POST ${path} → ${res.status} ${res.statusText}`);
   return res.json().catch(() => ({}));
 }
 
@@ -148,6 +148,11 @@ export async function runAudit(
   }
 
   onEvent({ type: 'progress', message: '🚀 Starting workspace audit...', detail: '' });
+
+  // Diagnostic: fetch root resources and log what we see
+  const rootResources = await getResources(null, wsId, cookie);
+  onEvent({ type: 'progress', message: `🔍 Root resources found: ${rootResources.length}`, detail: rootResources.map(r => `${r.resourceType}:${r.name}`).join(', ') || '(none)' });
+
   const result = await traverseFolder(null);
   const total =
     result.workbooks.reduce((s, w) => s + w.totalRows, 0) +
