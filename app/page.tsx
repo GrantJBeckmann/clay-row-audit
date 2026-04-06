@@ -88,9 +88,12 @@ export default function Home() {
     setPhase('loading');
     setCallCount(0);
     setLog([]);
-    setProgress(0);
+    setProgress(5);
     setCurrentMsg('Connecting…');
     setCurrentDetail('');
+
+    // Yield to React so the loading UI renders before fetch starts
+    await new Promise(r => setTimeout(r, 50));
 
     const abort = new AbortController();
     abortRef.current = abort;
@@ -178,7 +181,7 @@ export default function Home() {
 
       {/* Dim + blur overlay for form and loading phases */}
       {showBg && (
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 10, background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
 
           {phase === 'form' && (
             <div style={{ width: '100%', maxWidth: 480, background: '#fff', borderRadius: 14, padding: '32px 36px', boxShadow: '0 24px 64px rgba(0,0,0,0.25)' }}>
@@ -229,8 +232,12 @@ export default function Home() {
 
           {phase === 'loading' && (
             <div style={{ width: '100%', maxWidth: 560, background: '#fff', borderRadius: 14, padding: '32px 36px', boxShadow: '0 24px 64px rgba(0,0,0,0.25)' }}>
-              <h1 style={{ fontSize: 20, fontWeight: 700, color: '#111827', marginBottom: 4 }}>Auditing Workspace…</h1>
-              <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 24 }}>{callCount} API calls made</p>
+              <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 4 }}>
+                <div style={{ width: 20, height: 20, borderRadius: '50%', border: '2.5px solid #e5e7eb', borderTopColor: '#6366f1', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
+                <h1 style={{ fontSize: 20, fontWeight: 700, color: '#111827' }}>Auditing Workspace…</h1>
+              </div>
+              <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 24, marginLeft: 32 }}>{callCount} API calls made</p>
 
               <div style={{ background: '#f3f4f6', borderRadius: 99, height: 6, marginBottom: 24, overflow: 'hidden' }}>
                 <div style={{
