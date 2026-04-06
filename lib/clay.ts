@@ -95,10 +95,8 @@ export async function runAudit(
     parentResource: { type: string; id: string } | null
   ): Promise<{ folders: ClayFolder[]; workbooks: ClayWorkbook[] }> {
     const resources = await getResources(parentResource, wsId, cookie);
-    const parentId = parentResource?.id ?? null;
-    const here = resources.filter(r => r.parentFolderId === parentId);
-    const folders = here.filter(r => r.resourceType === 'FOLDER');
-    const workbooks = here.filter(r => r.resourceType === 'WORKBOOK');
+    const folders = resources.filter(r => r.resourceType === 'FOLDER');
+    const workbooks = resources.filter(r => r.resourceType === 'WORKBOOK');
 
     // Fetch all workbook tables in parallel
     const wbTableLists = await Promise.all(
